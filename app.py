@@ -14,6 +14,10 @@ def defaultRoute():
 
 @app.route('/createVM', methods=["GET","POST"])
 def createVMRoute():
+	if(request.method == "POST"):
+		pass
+
+	print(request.json)
 	pass
 
 @app.route('/modifyRam', methods=["GET","POST"])
