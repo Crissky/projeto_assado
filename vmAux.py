@@ -26,4 +26,8 @@ def createVM(name, ostype):
 
 if(__name__ == '__main__'):
 	#createVM('WinXP', 'WindowsXP')
+	out, err = getVMs()
+	result = out.decode("utf-8")
+	vmList = funcAux.VMsText2dics(result)
+	print(vmList[1].keys())
 	pass

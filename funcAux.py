@@ -11,6 +11,9 @@ def text2dic(text, list_sep='\r\n', dic_sep=':'):
 	return dic
 
 def text2list(text, split_text='Name:'):
+	if(text.find('Memory size:') == -1):
+		text = text.replace('Memory size', 'Memory size:')
+
 	mList = text.split(split_text)
 	mList = mList[1:]
 	mList = [split_text+line for line in mList]
