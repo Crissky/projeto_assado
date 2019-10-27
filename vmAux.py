@@ -1,6 +1,9 @@
 #https://www.vivaolinux.com.br/dica/10-passos-para-criar-maquina-virtual-no-VirtualBox-na-linha-de-comando
 #createVM command = "VBoxManage createvm --name WinXP --ostype WindowsXP --register --basefolder /media/vm/maquinas/"
 
+# "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" list -l vms
+# "C:\Program Files\Oracle\VirtualBox\VBoxManage.exe" createvm --name WinXP --ostype WindowsXP --register
+
 import os, subprocess, sys, funcAux
 
 mPath = '"C:\\Program Files\\Oracle\\VirtualBox\\VBoxManage.exe"'
@@ -24,10 +27,26 @@ def createVM(name, ostype):
 
 	return getCommandCommunicate(command)
 
+def modifyVM(vm_name, ram, vram):
+	command = 'modifyvm "{vm_name}" --memory {ram} --vram {vram}'.format(vm_name=vm_name, ram=ram, vram=vram)
+
+	return getCommandCommunicate(command)
+
+def createHD(filename='/media/vm/hds/winxp-10gb.vdi', hd_size=10056):
+	command = 'createhd --filename {filename} -size {hd_size}'.format(filename=filename, hd_size=hd_size)
+
+	return getCommandCommunicate(command)
+
+# def registerImage(iso_type='dvd', filename='/media/vm/iso/w2ppfpp_br.iso'):
+# 	command = 'registerimage {iso_type} {filename}'.format(iso_type=iso_type, filename=filename)
+
+# 	return getCommandCommunicate(command)
+
 if(__name__ == '__main__'):
 	#createVM('WinXP', 'WindowsXP')
 	out, err = getVMs()
 	result = out.decode("utf-8")
 	vmList = funcAux.VMsText2dics(result)
-	print(vmList[1].keys())
+	print(vmList[1])
+	#modifyVM("Windows9", 512, 64)
 	pass
