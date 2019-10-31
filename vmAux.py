@@ -22,8 +22,8 @@ def getVMs():
 	
 	return getCommandCommunicate(command)
 
-def createVM(name, ostype):
-	command =  "createvm --name {name} --ostype {ostype} --register".format(name=name, ostype=ostype)
+def createVM(vm_name, os_type):
+	command = "createvm --name {vm_name} --ostype {os_type} --register".format(vm_name=vm_name, os_type=os_type)
 
 	return getCommandCommunicate(command)
 

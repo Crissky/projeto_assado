@@ -11,12 +11,10 @@ def text2dic(text, list_sep='\r\n', dic_sep=':'):
 	return dic
 
 def text2list(text, split_text='Name:'):
-	if(text.find('Memory size:') == -1):
-		text = text.replace('Memory size', 'Memory size:')
-
 	mList = text.split(split_text)
 	mList = mList[1:]
 	mList = [split_text+line for line in mList]
+	mList = fixMemorySize(mList)
 
 	return mList
 
@@ -25,6 +23,16 @@ def VMsText2dics(text, split_text='Name:'):
 	vm_dic_list = list( map(text2dic, vm_text_list) )
 
 	return vm_dic_list
+
+def fixMemorySize(list_text):
+	for index in range(len(list_text)):
+		text = list_text[index]
+		if(text.find('Memory size:') == -1):
+			list_text[index] = text.replace('Memory size', 'Memory size:')
+
+	return list_text
+
+
 
 if __name__ == '__main__':
 	import subprocess

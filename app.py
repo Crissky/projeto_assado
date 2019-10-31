@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template
 import os, subprocess, sys, funcAux, vmAux
+from random import choice
 
 app = Flask(__name__)
 mPath = '"C:\\Program Files\\Oracle\\VirtualBox\\VBoxManage.exe"'
@@ -15,10 +16,23 @@ def defaultRoute():
 @app.route('/createVM', methods=["GET","POST"])
 def createVMRoute():
 	if(request.method == "POST"):
-		pass
-
-	print(request.json)
-	pass
+		print("Print REQUEST:",request)
+		print("Print FORM", request.form)
+		vm_name = request.form.get('name')
+		os_type = request.form.get('guest_os')
+		ram = request.form.get('memory_size')
+		vram = request.form.get('vram_size')
+	
+	return '''<!DOCTYPE html>
+				<html>
+				   <head>
+				      <title>Creating VM</title>
+				      <meta http-equiv = "refresh" content = "0; url = http://localhost:5000/" />
+				   </head>
+				   <body>
+				      <p>Creating Virtual Machine</p>
+				   </body>
+				</html>'''
 
 @app.route('/modifyRam', methods=["GET","POST"])
 def modifyRamRoute():

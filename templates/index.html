@@ -15,30 +15,26 @@
 
 </head>
 
-<body>
+<body class={{ ["bg-secondary", "bg-success","bg-warning","bg-primary","bg-info","bg-danger"]|random }}>
   <!-- <script src="js/scripts.js"></script> -->
   <div class="container text-center mt-5">
-    <div class="card text-white bg-dark border-info">
+    <div class="card text-white bg-dark border-info shadow-lg">
       <div class="card-body">
         
         <div class="card-header pd-5"><h1>Virtual Machines</h1></div>
         
-        <div class="my-2"><button type="button" class="btn btn-info btn-lg">New VM</button></div>
+        <div class="my-2"><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#exampleModalCenter">New VM</button></div>
         
         
         <div class="accordion" id="accordionExample">
           {% for vm in vmList %}
 
-          <div class="card text-left">
-            <div class="card-header" id={{"heading{0}".format(loop.index)}}>
-              <h2 class="mb-0">
-                <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target={{"#collapse{0}".format(loop.index)}} aria-expanded="false" aria-controls={{"collapse{0}".format(loop.index)}}>
-                  {{vm['Name']}}
-                </button>
-              </h2>
+          <div class="card text-left bg-secondary">
+            <div class="card-header collapsed" data-target="{{'#collapse{0}'.format(loop.index)}}"  data-toggle="collapse"  id={{"heading{0}".format(loop.index)}}>
+              <h3 class="mb-0 text-center text-light"><span class="badge {{ ["badge-success","badge-warning","badge-primary","badge-info","badge-danger"]|random }}">{{vm['Name']}}</span></h3>
             </div>
             <div id={{"collapse{0}".format(loop.index)}} class="collapse" aria-labelledby={{"heading{0}".format(loop.index)}} data-parent="#accordionExample">
-              <div class="card-body text-dark">
+              <div class="card-body">
                 
                 <div class="row ml-1"><p class="font-weight-bold mr-2">Name:</p> <p>{{vm["Name"]}}</p></div>
                 <div class="row ml-1"><p class="font-weight-bold mr-2">Guest OS:</p> <p>{{vm["Guest OS"]}}</p></div>
@@ -46,33 +42,33 @@
                 <div class="row ml-1"><p class="font-weight-bold mr-2">VRAM size:</p> <p>{{vm["VRAM size"]}}</p></div>
                 <div class="row ml-1"><p class="font-weight-bold mr-2">Number of CPUs:</p> <p>{{vm["Number of CPUs"]}}</p></div>
                 <div class="row ml-1"><p class="font-weight-bold mr-2">Log folder:</p> <p>{{vm["Log folder"][:vm["Log folder"].rfind('\\')+1]}}</p></div>
-                
+                <hr>
                 <form>
                   <div class="form-row">
                     
                     <div class="form-group col-md-6">
                       <label for={{"Name{0}".format(loop.index)}} class="font-weight-bold">Name</label>
-                      <input type="text" class="form-control" id={{"Name{0}".format(loop.index)}} readonly value={{vm["Name"]}}>
+                      <input type="text" class="form-control" id={{"Name{0}".format(loop.index)}} readonly value="{{vm['Name']}}"}>
                     </div>
                     <div class="form-group col-md-6">
                       <label for={{"Guest_OS{0}".format(loop.index)}} class="font-weight-bold">Guest OS</label>
-                      <input type="text" class="form-control" id={{"Guest_OS{0}".format(loop.index)}} readonly value={{vm["Guest OS"]}}>
+                      <input type="text" class="form-control" id={{"Guest_OS{0}".format(loop.index)}} readonly value="{{vm['Guest OS']}}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for={{"Memory_size{0}".format(loop.index)}} class="font-weight-bold">Memory size</label>
-                      <input type="text" class="form-control" id={{"Memory_size{0}".format(loop.index)}} readonly value={{vm["Memory size"]}}>
+                      <input type="text" class="form-control" id={{"Memory_size{0}".format(loop.index)}} readonly value="{{vm['Memory size']}}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for={{"VRAM_size{0}".format(loop.index)}} class="font-weight-bold">VRAM size</label>
-                      <input type="text" class="form-control" id={{"VRAM_size{0}".format(loop.index)}} readonly value={{vm["VRAM size"]}}>
+                      <input type="text" class="form-control" id={{"VRAM_size{0}".format(loop.index)}} readonly value="{{vm['VRAM size']}}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for={{"Number_of_CPUs{0}".format(loop.index)}} class="font-weight-bold">Number of CPUs</label>
-                      <input type="text" class="form-control" id={{"Number_of_CPUs{0}".format(loop.index)}} readonly value={{vm["Number of CPUs"]}}>
+                      <input type="text" class="form-control" id={{"Number_of_CPUs{0}".format(loop.index)}} readonly value="{{vm['Number of CPUs']}}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for={{"Log_folder{0}".format(loop.index)}} class="font-weight-bold">Log folder</label>
-                      <input type="text" class="form-control" id={{"Log_folder{0}".format(loop.index)}} readonly value={{vm["Log folder"][:-4]}}>
+                      <input type="text" class="form-control" id={{"Log_folder{0}".format(loop.index)}} readonly value="{{vm['Log folder'][:-4]}}">
                     </div>
                     
                   </div>
@@ -88,6 +84,56 @@
       <div class="card-footer bg-transparent border-info">Created by Edson Cristovam - UFRPE</div>
     </div>
   </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content bg-dark text-light">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Create Virtual Machine</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span class="text-light" aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body bg-dark">
+        <form action="/createVM" method="POST">
+          <div class="form-row">
+            
+            <div class="form-group col-md-6">
+              <label for="new_name" class="font-weight-bold">Name</label>
+              <input type="text" class="form-control bg-light" id="new_name" name="name" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="new_guest_os" class="font-weight-bold">Guest OS</label>
+              <input type="text" class="form-control bg-light" id="new_guest_os" name="guest_os" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="new_memory_size" class="font-weight-bold">Memory size</label>
+              <input type="number" class="form-control bg-light" id="new_memory_size" name="memory_size"  required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="new_vram_size" class="font-weight-bold">VRAM size</label>
+              <input type="number" class="form-control bg-light" id="new_vram_size" name="vram_size" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="new_number_of_cpus" class="font-weight-bold">Number of CPUs</label>
+              <input type="number" class="form-control bg-light" id="new_number_of_cpus" name="number_of_cpus" required>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="new_log_folder" class="font-weight-bold">Log folder</label>
+              <input type="text" class="form-control bg-light" id="new_log_folder" name="log_folder" required>
+            </div>
+            
+          </div>
+      </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Create</button>
+          </div>
+        </form>
+    </div>
+  </div>
+</div>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
