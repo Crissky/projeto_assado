@@ -23,7 +23,7 @@
         
         <div class="card-header pd-5"><h1>Virtual Machines</h1></div>
         
-        <div class="my-2"><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#exampleModalCenter">New VM</button></div>
+        <div class="mt-2 mb-4"><button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#exampleModalCenter">New VM</button></div>
         
         
         <div class="accordion" id="accordionExample">
@@ -31,7 +31,7 @@
 
           <div class="card text-left bg-secondary">
             <div class="card-header collapsed" data-target="{{'#collapse{0}'.format(loop.index)}}"  data-toggle="collapse"  id={{"heading{0}".format(loop.index)}}>
-              <h3 class="mb-0 text-center text-light"><span class="badge {{ ["badge-success","badge-warning","badge-primary","badge-info","badge-danger"]|random }}">{{vm['Name']}}</span></h3>
+              <h2 class="mb-0 text-center text-light"><span class="badge {{ "badge-primary" if 'Windows' in vm['Guest OS'] else 'badge-warning'}} ">{{vm['Name']}}</span></h2>
             </div>
             <div id={{"collapse{0}".format(loop.index)}} class="collapse" aria-labelledby={{"heading{0}".format(loop.index)}} data-parent="#accordionExample">
               <div class="card-body">
@@ -43,34 +43,38 @@
                 <div class="row ml-1"><p class="font-weight-bold mr-2">Number of CPUs:</p> <p>{{vm["Number of CPUs"]}}</p></div>
                 <div class="row ml-1"><p class="font-weight-bold mr-2">Log folder:</p> <p>{{vm["Log folder"][:vm["Log folder"].rfind('\\')+1]}}</p></div>
                 <hr>
-                <form>
+                <form  action="/modifyVM" method="POST">
                   <div class="form-row">
                     
                     <div class="form-group col-md-6">
                       <label for={{"Name{0}".format(loop.index)}} class="font-weight-bold">Name</label>
-                      <input type="text" class="form-control" id={{"Name{0}".format(loop.index)}} readonly value="{{vm['Name']}}"}>
+                      <input type="text" class="form-control" id={{"Name{0}".format(loop.index)}} name="name" readonly value="{{vm['Name']}}"}>
                     </div>
                     <div class="form-group col-md-6">
                       <label for={{"Guest_OS{0}".format(loop.index)}} class="font-weight-bold">Guest OS</label>
-                      <input type="text" class="form-control" id={{"Guest_OS{0}".format(loop.index)}} readonly value="{{vm['Guest OS']}}">
+                      <input type="text" class="form-control" id={{"Guest_OS{0}".format(loop.index)}} name="guest_os" readonly value="{{vm['Guest OS']}}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for={{"Memory_size{0}".format(loop.index)}} class="font-weight-bold">Memory size</label>
-                      <input type="text" class="form-control" id={{"Memory_size{0}".format(loop.index)}} readonly value="{{vm['Memory size']}}">
+                      <input type="number" class="form-control" id={{"Memory_size{0}".format(loop.index)}} name="memory_size" value="{{vm['Memory size'][:-2]}}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for={{"VRAM_size{0}".format(loop.index)}} class="font-weight-bold">VRAM size</label>
-                      <input type="text" class="form-control" id={{"VRAM_size{0}".format(loop.index)}} readonly value="{{vm['VRAM size']}}">
+                      <input type="number" class="form-control" id={{"VRAM_size{0}".format(loop.index)}} name="vram_size" value="{{vm['VRAM size'][:-2]}}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for={{"Number_of_CPUs{0}".format(loop.index)}} class="font-weight-bold">Number of CPUs</label>
-                      <input type="text" class="form-control" id={{"Number_of_CPUs{0}".format(loop.index)}} readonly value="{{vm['Number of CPUs']}}">
+                      <input type="number" class="form-control" id={{"Number_of_CPUs{0}".format(loop.index)}} name="number_of_cpus" value="{{vm['Number of CPUs']}}">
                     </div>
                     <div class="form-group col-md-6">
                       <label for={{"Log_folder{0}".format(loop.index)}} class="font-weight-bold">Log folder</label>
-                      <input type="text" class="form-control" id={{"Log_folder{0}".format(loop.index)}} readonly value="{{vm['Log folder'][:-4]}}">
+                      <input type="text" class="form-control" id={{"Log_folder{0}".format(loop.index)}} name="log_folder" readonly value="{{vm['Log folder'][:-4]}}">
                     </div>
                     
+                  </div>
+                  <div>
+                    <button type="submit" class="btn btn-warning">Edit</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
                   </div>
                 </form>
 
@@ -105,7 +109,10 @@
             </div>
             <div class="form-group col-md-6">
               <label for="new_guest_os" class="font-weight-bold">Guest OS</label>
-              <input type="text" class="form-control bg-light" id="new_guest_os" name="guest_os" required>
+              <select class="form-control" id="new_guest_os" name="guest_os">
+                <option selected>Linux</option>
+                <option>WindowsXP</option>
+              </select>
             </div>
             <div class="form-group col-md-6">
               <label for="new_memory_size" class="font-weight-bold">Memory size</label>

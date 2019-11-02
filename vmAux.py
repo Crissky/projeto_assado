@@ -27,8 +27,15 @@ def createVM(vm_name, os_type):
 
 	return getCommandCommunicate(command)
 
-def modifyVM(vm_name, ram, vram):
-	command = 'modifyvm "{vm_name}" --memory {ram} --vram {vram}'.format(vm_name=vm_name, ram=ram, vram=vram)
+def modifyVM(vm_name, ram=None, vram=None, num_cpus=None):
+	command = 'modifyvm "{vm_name}" '.format(vm_name=vm_name)
+	
+	if(ram):
+		command += '--memory {ram} '.format(ram=ram)
+	if(vram):
+		command += '--vram {vram} '.format(vram=vram)
+	if(num_cpus):
+		command += '--cpus {num_cpus}'.format(num_cpus=num_cpus)
 
 	return getCommandCommunicate(command)
 
