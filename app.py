@@ -33,16 +33,9 @@ def createVMRoute():
 		if(err):
 			return err.decode("utf-8")
 	
-	return '''<!DOCTYPE html>
-				<html>
-				   <head>
-				      <title>Creating VM</title>
-				      <meta http-equiv = "refresh" content = "0; url = http://localhost:5000/" />
-				   </head>
-				   <body>
-				      <p>Creating Virtual Machine</p>
-				   </body>
-				</html>'''
+	msg_dic = {'title': 'Creating VM', 'message':'Creating Virtual Machine...'}
+
+	return render_template('splash_alert.html', msg_dic=msg_dic)
 
 @app.route('/modifyVM', methods=["GET","POST"])
 def modifyVMRoute():
@@ -60,20 +53,30 @@ def modifyVMRoute():
 		if(err):
 			return err.decode("utf-8")
 	
-	return '''<!DOCTYPE html>
-				<html>
-				   <head>
-				      <title>Creating VM</title>
-				      <meta http-equiv = "refresh" content = "0; url = http://localhost:5000/" />
-				   </head>
-				   <body>
-				      <p>Editing Virtual Machine</p>
-				   </body>
-				</html>'''
+	msg_dic = {'title': 'Updating VM', 'message':'Updating Virtual Machine...'}
+
+	return render_template('splash_alert.html', msg_dic=msg_dic)
 
 @app.route('/deleteVM', methods=["GET","POST"])
 def deleteVMRoute():
 	pass
+
+@app.route('/startVM', methods=["GET","POST"])
+def startVMRoute():
+	if(request.method == "POST"):
+		print('/startVM')
+		print("Print REQUEST:",request)
+		print("Print FORM", request.form)
+		vm_name = request.form.get('name')
+		
+		(out, err) = vmAux.startVM(vm_name)
+		if(err):
+			return err.decode("utf-8")
+	
+	msg_dic = {'title': 'Starting VM', 'message':'Starting Virtual Machine...'}
+
+	return render_template('splash_alert.html', msg_dic=msg_dic)
+
 
 if(__name__ == '__main__'):
 	#os.system("\%programfiles\%\\Oracle\\VirtualBox\\VBoxManage list -1 vms")

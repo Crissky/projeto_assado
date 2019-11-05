@@ -49,6 +49,11 @@ def createHD(filename='/media/vm/hds/winxp-10gb.vdi', hd_size=10056):
 
 # 	return getCommandCommunicate(command)
 
+def startVM(vm_name):
+	command = "startvm {vm_name}".format(vm_name=vm_name)
+
+	return getCommandCommunicate(command)
+
 if(__name__ == '__main__'):
 	#createVM('WinXP', 'WindowsXP')
 	out, err = getVMs()
