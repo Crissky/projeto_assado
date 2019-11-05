@@ -10,6 +10,8 @@ mPath = '"C:\\Program Files\\Oracle\\VirtualBox\\VBoxManage.exe"'
 
 def executeCommand(command):
 	full_command = mPath + ' ' + command
+	print("Full Command:", full_command)
+	
 	return subprocess.Popen(full_command, stdout=subprocess.PIPE, shell=True)
 
 def getCommandCommunicate(command):

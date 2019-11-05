@@ -24,7 +24,6 @@ def createVMRoute():
 		ram = request.form.get('memory_size')
 		vram = request.form.get('vram_size')
 		num_cpus = request.form.get('number_of_cpus')
-
 		(out, err) = vmAux.createVM(vm_name, os_type)
 		if(err):
 			return err.decode("utf-8")
