@@ -36,19 +36,29 @@
             <div id={{"collapse{0}".format(loop.index)}} class="collapse" aria-labelledby={{"heading{0}".format(loop.index)}} data-parent="#accordionExample">
               <div class="card-body">
                 
-                <div class="row ml-1"><p class="font-weight-bold mr-2">Name:</p> <p>{{vm["Name"]}}</p></div>
-                <div class="row ml-1"><p class="font-weight-bold mr-2">Guest OS:</p> <p>{{vm["Guest OS"]}}</p></div>
-                <div class="row ml-1"><p class="font-weight-bold mr-2">Memory size:</p> <p>{{vm["Memory size"]}}</p></div>
-                <div class="row ml-1"><p class="font-weight-bold mr-2">VRAM size:</p> <p>{{vm["VRAM size"]}}</p></div>
-                <div class="row ml-1"><p class="font-weight-bold mr-2">Number of CPUs:</p> <p>{{vm["Number of CPUs"]}}</p></div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row ml-1"><p class="font-weight-bold mr-2">Name:</p> <p>{{vm["Name"]}}</p></div>
+                    <div class="row ml-1"><p class="font-weight-bold mr-2">Guest OS:</p> <p>{{vm["Guest OS"]}}</p></div>
+                    <div class="row ml-1"><p class="font-weight-bold mr-2">State:</p> <p>{{vm["State"]}}</p></div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row ml-1"><p class="font-weight-bold mr-2">Memory size:</p> <p>{{vm["Memory size"]}}</p></div>
+                    <div class="row ml-1"><p class="font-weight-bold mr-2">VRAM size:</p> <p>{{vm["VRAM size"]}}</p></div>
+                    <div class="row ml-1"><p class="font-weight-bold mr-2">Number of CPUs:</p> <p>{{vm["Number of CPUs"]}}</p></div>
+                  </div>
+                </div>
+                <hr>
                 <div class="row ml-1"><p class="font-weight-bold mr-2">Log folder:</p> <p>{{vm["Log folder"][:vm["Log folder"].rfind('\\')+1]}}</p></div>
+                <div class="row ml-1"><p class="font-weight-bold mr-2">SATA:</p> <p>{{vm["SATA (0, 0)"]}}</p></div>
                 <hr>
                 <form  action="/modifyVM" method="POST">
                   <div class="form-row">
                     
                     <div class="form-group col-md-6">
                       <label for={{"Name{0}".format(loop.index)}} class="font-weight-bold">Name</label>
-                      <input type="text" class="form-control" id={{"Name{0}".format(loop.index)}} name="name" readonly value="{{vm['Name']}}"}>
+                      <input type="text" class="form-control" id={{"New_name{0}".format(loop.index)}} name="new_name" value="{{vm['Name']}}"}>
+                      <input type="hidden" class="form-control" id={{"Name{0}".format(loop.index)}} name="name" readonly value="{{vm['Name']}}"}>
                     </div>
                     <div class="form-group col-md-6">
                       <label for={{"Guest_OS{0}".format(loop.index)}} class="font-weight-bold">Guest OS</label>
@@ -78,7 +88,7 @@
                     <div class="ml-2">
                       <form  action="/startVM" method="POST">
                         <input type="hidden" class="form-control" name="name" readonly value="{{vm['Name']}}"}>
-                        <button type="submit" class="btn btn-danger">Start</button>
+                        <button type="submit" class="btn btn-success">Start</button>
                       </form>
                     </div>
                   </div>
@@ -115,8 +125,8 @@
             <div class="form-group col-md-6">
               <label for="new_guest_os" class="font-weight-bold">Guest OS</label>
               <select class="form-control" id="new_guest_os" name="guest_os">
-                <option selected>Linux</option>
-                <option>WindowsXP</option>
+                <option selected value="linux3000.ova">Linux</option>
+                <option value="Windows9.ova">WindowsXP</option>
               </select>
             </div>
             <div class="form-group col-md-6">

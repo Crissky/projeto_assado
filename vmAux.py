@@ -29,15 +29,17 @@ def createVM(vm_name, os_type):
 
 	return getCommandCommunicate(command)
 
-def modifyVM(vm_name, ram=None, vram=None, num_cpus=None):
+def modifyVM(vm_name, ram=None, vram=None, num_cpus=None, new_name=None):
 	command = 'modifyvm "{vm_name}" '.format(vm_name=vm_name)
 	
 	if(ram):
-		command += '--memory {ram} '.format(ram=ram)
+		command += ' --memory {ram}'.format(ram=ram)
 	if(vram):
-		command += '--vram {vram} '.format(vram=vram)
+		command += ' --vram {vram}'.format(vram=vram)
 	if(num_cpus):
-		command += '--cpus {num_cpus}'.format(num_cpus=num_cpus)
+		command += ' --cpus {num_cpus}'.format(num_cpus=num_cpus)
+	if(new_name):
+		command += ' --name "{new_name}"'.format(new_name=new_name)
 
 	return getCommandCommunicate(command)
 
@@ -53,6 +55,11 @@ def createHD(filename='/media/vm/hds/winxp-10gb.vdi', hd_size=10056):
 
 def startVM(vm_name):
 	command = "startvm {vm_name}".format(vm_name=vm_name)
+
+	return getCommandCommunicate(command)
+
+def importVM(ova_name):
+	command = 'import "{ova_name}"'.format(ova_name=ova_name)
 
 	return getCommandCommunicate(command)
 

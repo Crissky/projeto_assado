@@ -5,11 +5,16 @@ from random import choice
 app = Flask(__name__)
 mPath = '"C:\\Program Files\\Oracle\\VirtualBox\\VBoxManage.exe"'
 
-@app.route('/')
-def defaultRoute():
+def getVMs():
 	(out, err) = vmAux.getVMs()
 	result = out.decode("utf-8")
 	vmList = funcAux.VMsText2dics(result)
+
+	return vmList
+
+@app.route('/')
+def defaultRoute():
+	vmList = getVMs()
 
 	return render_template('index.html', vmList=vmList, title="Teste ok")
 
@@ -19,16 +24,19 @@ def createVMRoute():
 		print('/createVM')
 		print("Print REQUEST:",request)
 		print("Print FORM", request.form)
-		vm_name = request.form.get('name')
+		new_name = request.form.get('name')
 		os_type = request.form.get('guest_os')
+		ova_name = os.getcwd() + os.sep + os_type
 		ram = request.form.get('memory_size')
 		vram = request.form.get('vram_size')
 		num_cpus = request.form.get('number_of_cpus')
-		(out, err) = vmAux.createVM(vm_name, os_type)
+		(out, err) = vmAux.importVM(ova_name)
 		if(err):
 			return err.decode("utf-8")
 
-		(out, err) = vmAux.modifyVM(vm_name, ram, vram, num_cpus)
+		vmList = getVMs()
+		vm_name = vmList[-1]["Name"]
+		(out, err) = vmAux.modifyVM(vm_name, ram, vram, num_cpus, new_name)
 		if(err):
 			return err.decode("utf-8")
 	
@@ -43,22 +51,19 @@ def modifyVMRoute():
 		print("Print REQUEST:",request)
 		print("Print FORM", request.form)
 		vm_name = request.form.get('name')
+		new_name = request.form.get('new_name')
 		os_type = request.form.get('guest_os')
 		ram = request.form.get('memory_size')
 		vram = request.form.get('vram_size')
 		num_cpus = request.form.get('number_of_cpus')
 
-		(out, err) = vmAux.modifyVM(vm_name, ram, vram, num_cpus)
+		(out, err) = vmAux.modifyVM(vm_name, ram, vram, num_cpus, new_name)
 		if(err):
 			return err.decode("utf-8")
 	
 	msg_dic = {'title': 'Updating VM', 'message':'Updating Virtual Machine...'}
 
 	return render_template('splash_alert.html', msg_dic=msg_dic)
-
-@app.route('/deleteVM', methods=["GET","POST"])
-def deleteVMRoute():
-	pass
 
 @app.route('/startVM', methods=["GET","POST"])
 def startVMRoute():
