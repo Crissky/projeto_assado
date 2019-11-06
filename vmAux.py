@@ -48,18 +48,13 @@ def createHD(filename='/media/vm/hds/winxp-10gb.vdi', hd_size=10056):
 
 	return getCommandCommunicate(command)
 
-# def registerImage(iso_type='dvd', filename='/media/vm/iso/w2ppfpp_br.iso'):
-# 	command = 'registerimage {iso_type} {filename}'.format(iso_type=iso_type, filename=filename)
-
-# 	return getCommandCommunicate(command)
-
 def startVM(vm_name):
 	command = "startvm {vm_name}".format(vm_name=vm_name)
 
 	return getCommandCommunicate(command)
 
-def importVM(ova_name):
-	command = 'import "{ova_name}"'.format(ova_name=ova_name)
+def importVM(ova_name, vm_name):
+	command = 'import "{ova_name}" --vsys 0 --vmname "{vm_name}"'.format(ova_name=ova_name, vm_name=vm_name)
 
 	return getCommandCommunicate(command)
 

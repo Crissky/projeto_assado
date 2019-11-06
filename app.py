@@ -24,18 +24,16 @@ def createVMRoute():
 		print('/createVM')
 		print("Print REQUEST:",request)
 		print("Print FORM", request.form)
-		new_name = request.form.get('name')
+		vm_name = new_name = request.form.get('name')
 		os_type = request.form.get('guest_os')
-		ova_name = os.getcwd() + os.sep + os_type
 		ram = request.form.get('memory_size')
 		vram = request.form.get('vram_size')
 		num_cpus = request.form.get('number_of_cpus')
-		(out, err) = vmAux.importVM(ova_name)
+		ova_name = os.getcwd() + os.sep + os_type
+		(out, err) = vmAux.importVM(ova_name, vm_name)
 		if(err):
 			return err.decode("utf-8")
 
-		vmList = getVMs()
-		vm_name = vmList[-1]["Name"]
 		(out, err) = vmAux.modifyVM(vm_name, ram, vram, num_cpus, new_name)
 		if(err):
 			return err.decode("utf-8")
