@@ -54,15 +54,37 @@ def startVM(vm_name):
 	return getCommandCommunicate(command)
 
 def importVM(ova_name, vm_name):
-	command = 'import "{ova_name}" --vsys 0 --vmname "{vm_name}"'.format(ova_name=ova_name, vm_name=vm_name)
+	command = 'import "{ova_name}" --vsys 0 --vmname "{vm_name}" --eula accept'.format(ova_name=ova_name, vm_name=vm_name)
 
 	return getCommandCommunicate(command)
 
+def createHostOnly():
+	command = "hostonlyif create"
+
+	return getCommandCommunicate(command)
+
+def listHostOnly():
+	command = "list hostonlyifs"
+
+	return getCommandCommunicate(command)
+
+def printOut(out, err):
+	if(out):
+		result = out.decode("utf-8")
+	else:
+		result = err.decode("utf-8")
+	
+	print(result)
+
 if(__name__ == '__main__'):
-	#createVM('WinXP', 'WindowsXP')
-	out, err = getVMs()
-	result = out.decode("utf-8")
-	vmList = funcAux.VMsText2dics(result)
-	print(vmList[1])
-	#modifyVM("Windows9", 512, 64)
+	# out, err = getVMs()
+	# result = out.decode("utf-8")
+	# vmList = funcAux.VMsText2dics(result)
+	# print(vmList[1])
+	
+	# out, err = createHostOnly()
+	# printOut(out, err)
+
+	out, err = listHostOnly()
+	printOut(out, err)
 	pass
